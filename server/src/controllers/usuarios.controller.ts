@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { respuestaExito, respuestaError } from "../helpers/responses";
-import { Usuarios } from "../models/usuarios.models";
+import { Usuarios } from "../models/usuarios.model";
 
 class UsuariosController {
 
@@ -9,11 +9,9 @@ class UsuariosController {
       const nuevoUsuario = await Usuarios.save(req.body);
       if (nuevoUsuario) {
         respuestaExito<Usuarios>(res, 201, 'Usuario creado exitosamente.', nuevoUsuario);
-      } else {
-        respuestaError(res, 400, 'No se pudo crear el usuario.');
       }
     } catch (error) {
-      respuestaError(res, 500, 'Error interno del servidor.', error);
+      respuestaError(res, 500, 'Error interno del servidor.', error.message);
     }
   }
 
@@ -27,7 +25,7 @@ class UsuariosController {
         respuestaError(res, 404, "Usuario no encontrado");
       }
     } catch (error) {
-      respuestaError(res, 500, 'Error interno del servidor.', error);
+      respuestaError(res, 500, 'Error interno del servidor.', error.message);
     }
   }
 
@@ -35,9 +33,9 @@ class UsuariosController {
     try {
       const { id } = req.params;
       await Usuarios.update(Number(id), req.body);
-      respuestaExito<null>(res, 200, 'Usuario actualizado exitosamente.', null);
+      respuestaExito(res, 200, 'Usuario actualizado exitosamente.');
     } catch (error) {
-      respuestaError(res, 500, 'Error interno del servidor.', error);
+      respuestaError(res, 500, 'Error interno del servidor.', error.message);
     }
   }
 
@@ -45,9 +43,9 @@ class UsuariosController {
     try {
       const { id } = req.params;
       await Usuarios.delete(Number(id));
-      respuestaExito<null>(res, 200, 'Usuario eliminado exitosamente.', null);
+      respuestaExito(res, 200, 'Usuario eliminado exitosamente.');
     } catch (error) {
-      respuestaError(res, 500, 'Error interno del servidor.', error);
+      respuestaError(res, 500, 'Error interno del servidor.', error.message);
     }
   }
 
@@ -56,7 +54,24 @@ class UsuariosController {
       const usuarios = await Usuarios.find();
       respuestaExito<Usuarios[]>(res, 200, '', usuarios);
     } catch (error) {
-      respuestaError(res, 500, 'Error interno del servidor.', error);
+      respuestaError(res, 500, 'Error interno del servidor.', error.message);
+    }
+  }
+
+  async listarCategorias(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const usuario = await Usuarios.findOne({
+        where: { id: Number(id) },
+        relations: ['categorias'],
+      });
+      if (usuario) {
+        respuestaExito(res, 200, '', usuario.categorias);
+      } else {
+        respuestaError(res, 404, "Usuario no encontrado");
+      }
+    } catch (error) {
+      respuestaError(res, 500, 'Error interno del servidor.', error.message);
     }
   }
 }

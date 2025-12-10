@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Usuarios } from "./usuarios.models";
+import { Usuarios } from "./usuarios.model";
 import { Categorias } from "./categorias.model";
 
 @Entity()

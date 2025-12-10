@@ -1,7 +1,6 @@
 import express from 'express';
 import UsuariosController from '../controllers/usuarios.controller';
 
-
 const UsuariosRoutes = express.Router();
 
 UsuariosRoutes.route('/')
@@ -11,5 +10,7 @@ UsuariosRoutes.route('/:id')
   .get(UsuariosController.leer)
   .put(UsuariosController.modificar)
   .delete(UsuariosController.eliminar);
+
+UsuariosRoutes.get('/:id/cateorias', UsuariosController.listarCategorias);
 
 export default UsuariosRoutes;

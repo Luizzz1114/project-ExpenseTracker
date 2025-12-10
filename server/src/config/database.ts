@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { DataSource } from 'typeorm';
-import { Usuarios } from '../models/usuarios.models';
+import { Usuarios } from '../models/usuarios.model';
 import { Categorias } from '../models/categorias.model';
 import { Transacciones } from '../models/transacciones.model';
 
