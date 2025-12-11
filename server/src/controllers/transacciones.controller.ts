@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import { respuestaExito, respuestaError } from "../helpers/responses";
-import { Categorias } from "../models/categorias.model";
+import { Transacciones } from "../models/transacciones.model";
 
-class CategoriasController {
+class TransaccionesController {
 
   async crear(req: Request, res: Response) {
     try {
-      const nuevaCategoria = await Categorias.save(req.body);
-      if (nuevaCategoria) {
-        respuestaExito<Categorias>(res, 201, 'Categoría registrada con exito.');
+      const nuevaTransaccion = await Transacciones.save(req.body);
+      if (nuevaTransaccion) {
+        respuestaExito<Transacciones>(res, 201, 'Transacción registrada con exito.');
       }
     } catch (error) {
       respuestaError(res, 500, 'Error interno del servidor.', error.message);
@@ -18,16 +18,16 @@ class CategoriasController {
   async leer(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const categoria = await Categorias.findOne({
+      const transaccion = await Transacciones.findOne({
         where: { id: Number(id) },
         relations: {
           usuario: true,
         }
       });
-      if (categoria) {
-        respuestaExito<Categorias>(res, 200, '', categoria);
+      if (transaccion) {
+        respuestaExito<Transacciones>(res, 200, '', transaccion);
       } else {
-        respuestaError(res, 400, 'Categoría no encontrada.');
+        respuestaError(res, 400, 'Transacción no encontrada.');
       }
     } catch (error) {
       respuestaError(res, 500, 'Error interno del servidor.', error.message);
@@ -37,8 +37,8 @@ class CategoriasController {
   async modificar(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      await Categorias.update(Number(id), req.body);
-      respuestaExito(res, 200, 'Categoría actualizada exitosamente.');
+      await Transacciones.update(Number(id), req.body);
+      respuestaExito(res, 200, 'Transacción actualizada exitosamente.');
     } catch (error) {
       respuestaError(res, 500, 'Error interno del servidor.', error.message);
     } 
@@ -47,8 +47,8 @@ class CategoriasController {
   async eliminar(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      await Categorias.delete(Number(id));
-      respuestaExito(res, 200, 'Categoría eliminada exitosamente.');
+      await Transacciones.delete(Number(id));
+      respuestaExito(res, 200, 'Transacción eliminada exitosamente.');
     } catch (error) {
       respuestaError(res, 500, 'Error interno del servidor.', error.message);
     } 
@@ -56,14 +56,14 @@ class CategoriasController {
 
   async listar(req: Request, res: Response) {
     try {
-      const categorias = await Categorias.find();
-      if (categorias) {
-        respuestaExito<Categorias[]>(res, 200, '', categorias);
+      const transacciones = await Transacciones.find();
+      if (transacciones) {
+        respuestaExito<Transacciones[]>(res, 200, '', transacciones);
       }
     } catch (error) {
-      respuestaError(res, 500, 'Error al listar las categorías.', error.message);
+      respuestaError(res, 500, 'Error al listar las Transaccións.', error.message);
     }
   }
 }
 
-export default new CategoriasController();
+export default new TransaccionesController();
