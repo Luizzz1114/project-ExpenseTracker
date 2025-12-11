@@ -57,23 +57,6 @@ class UsuariosController {
       respuestaError(res, 500, 'Error interno del servidor.', error.message);
     }
   }
-
-  async listarCategorias(req: Request, res: Response) {
-    try {
-      const { id } = req.params;
-      const usuario = await Usuarios.findOne({
-        where: { id: Number(id) },
-        relations: ['categorias'],
-      });
-      if (usuario) {
-        respuestaExito(res, 200, '', usuario.categorias);
-      } else {
-        respuestaError(res, 404, "Usuario no encontrado");
-      }
-    } catch (error) {
-      respuestaError(res, 500, 'Error interno del servidor.', error.message);
-    }
-  }
 }
 
 export default new UsuariosController();

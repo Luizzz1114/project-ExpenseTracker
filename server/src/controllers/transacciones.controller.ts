@@ -22,6 +22,7 @@ class TransaccionesController {
         where: { id: Number(id) },
         relations: {
           usuario: true,
+          categoria: true
         }
       });
       if (transaccion) {

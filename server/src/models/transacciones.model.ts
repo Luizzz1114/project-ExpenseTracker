@@ -19,11 +19,11 @@ export class Transacciones extends BaseEntity {
   @Column()
   fecha: Date;
 
-  @ManyToOne(() => Usuarios, (usuario) => usuario.transacciones)
+  @ManyToOne(() => Usuarios, (usuario) => usuario.transacciones, { onDelete: 'CASCADE' })
   @JoinColumn({ name: "usuario_id" })
   usuario: Usuarios;
 
-  @ManyToOne(() => Categorias, (categoria) => categoria.transacciones)
+  @ManyToOne(() => Categorias, (categoria) => categoria.transacciones, { onDelete: 'CASCADE' })
   @JoinColumn({ name: "categoria_id" })
   categoria: Categorias;
 

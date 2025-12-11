@@ -7,16 +7,16 @@ export class Categorias extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
+  @Column()
   nombre: string;
 
   @Column()
-  icono?: string;
+  icono: string;
 
   @Column()
-  color?: string;
+  color: string;
 
-  @ManyToOne(() => Usuarios, (usuario) => usuario.categorias)
+  @ManyToOne(() => Usuarios, (usuario) => usuario.categorias, { onDelete: 'CASCADE' })
   @JoinColumn({ name: "usuario_id" })
   usuario: Usuarios;
 

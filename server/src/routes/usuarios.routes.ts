@@ -11,6 +11,4 @@ UsuariosRoutes.route('/:id')
   .put(UsuariosController.modificar)
   .delete(UsuariosController.eliminar);
 
-UsuariosRoutes.get('/:id/cateorias', UsuariosController.listarCategorias);
-
 export default UsuariosRoutes;
