@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { respuestaExito, respuestaError } from "../helpers/responses";
+import { respuestaExito, respuestaError } from "../utils/responses";
 import { Transacciones } from "../models/transacciones.model";
 
 class TransaccionesController {
@@ -19,7 +19,10 @@ class TransaccionesController {
     try {
       const { id } = req.params;
       const transaccion = await Transacciones.findOne({
-        where: { id: Number(id) },
+        where: { 
+          id: Number(id),
+          usuario: req.usuario
+        },
         relations: {
           usuario: true,
           categoria: true
@@ -57,7 +60,11 @@ class TransaccionesController {
 
   async listar(req: Request, res: Response) {
     try {
-      const transacciones = await Transacciones.find();
+      const transacciones = await Transacciones.find({
+        where: {
+          usuario: { id: req.usuario.id }
+        },
+      });
       if (transacciones) {
         respuestaExito<Transacciones[]>(res, 200, '', transacciones);
       }

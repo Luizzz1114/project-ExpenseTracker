@@ -1,14 +1,15 @@
 import express from 'express';
 import TransaccionesController from '../controllers/transacciones.controller';
+import { auntenticarToken } from '../middleware/auth';
 
 const TransaccionesRoutes = express.Router();
 
 TransaccionesRoutes.route('/')
-  .get(TransaccionesController.listar)
-  .post(TransaccionesController.crear);
+  .get(auntenticarToken, TransaccionesController.listar)
+  .post(auntenticarToken, TransaccionesController.crear);
 TransaccionesRoutes.route('/:id')
-  .get(TransaccionesController.leer)
-  .put(TransaccionesController.modificar)
-  .delete(TransaccionesController.eliminar);
+  .get(auntenticarToken, TransaccionesController.leer)
+  .put(auntenticarToken, TransaccionesController.modificar)
+  .delete(auntenticarToken, TransaccionesController.eliminar);
 
 export default TransaccionesRoutes;

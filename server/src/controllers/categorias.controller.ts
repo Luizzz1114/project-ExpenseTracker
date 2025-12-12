@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { respuestaExito, respuestaError } from "../helpers/responses";
+import { respuestaExito, respuestaError } from "../utils/responses";
 import { Categorias } from "../models/categorias.model";
+import { IsNull } from "typeorm";
 
 class CategoriasController {
 
@@ -56,7 +57,12 @@ class CategoriasController {
 
   async listar(req: Request, res: Response) {
     try {
-      const categorias = await Categorias.find();
+      const categorias = await Categorias.find({
+        where: [
+          { usuario: { id: req.usuario.id } }, 
+          { usuario: IsNull() }
+        ],
+      });
       if (categorias) {
         respuestaExito<Categorias[]>(res, 200, '', categorias);
       }

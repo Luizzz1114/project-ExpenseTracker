@@ -13,5 +13,5 @@ export const AppDataSource = new DataSource({
   database: process.env.PG_DATABASE,
   logging: true,
   entities: [Usuarios, Categorias, Transacciones],
-  synchronize: true
+  synchronize: false
 });
