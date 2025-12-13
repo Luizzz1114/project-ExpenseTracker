@@ -6,11 +6,9 @@ const UsuariosRoutes = express.Router();
 
 UsuariosRoutes.post('/registrar', UsuariosController.crear);
 UsuariosRoutes.post('/login', UsuariosController.login);
-UsuariosRoutes.route('/:id')
-  .get(auntenticarToken, UsuariosController.leer)
+UsuariosRoutes.get('/perfil', auntenticarToken, UsuariosController.leer);
+UsuariosRoutes.route('/')
   .put(auntenticarToken, UsuariosController.modificar)
   .delete(auntenticarToken, UsuariosController.eliminar);
-
-UsuariosRoutes.get('/', UsuariosController.listar);
 
 export default UsuariosRoutes;

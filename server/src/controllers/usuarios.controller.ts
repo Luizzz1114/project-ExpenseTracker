@@ -24,7 +24,7 @@ class UsuariosController {
 
   async leer(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const { id } = req.usuario;
       const usuario = await Usuarios.findOneBy({ id: Number(id) });
       if (usuario) {
         respuestaExito<Usuarios>(res, 200, '', usuario);
@@ -38,14 +38,18 @@ class UsuariosController {
 
   async modificar(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const { id } = req.usuario;
       const { contrasena } = req.body;
 			const hashContrasena = await bcrypt.hash(contrasena, 10);
-      await Usuarios.update(Number(id), req.body = {
+      const resultado = await Usuarios.update(Number(id), req.body = {
         ...req.body,
         contrasena: hashContrasena
       });
-      respuestaExito(res, 200, 'Usuario actualizado exitosamente.');
+      if (resultado.affected === 0) {
+        respuestaError(res, 404, 'Usuario no encontrado.');
+      } else {
+        respuestaExito(res, 200, 'Usuario actualizado exitosamente.');  
+      }
     } catch (error) {
       respuestaError(res, 500, 'Error interno del servidor.', error.message);
     }
@@ -53,18 +57,13 @@ class UsuariosController {
 
   async eliminar(req: Request, res: Response) {
     try {
-      const { id } = req.params;
-      await Usuarios.delete(Number(id));
-      respuestaExito(res, 200, 'Usuario eliminado exitosamente.');
-    } catch (error) {
-      respuestaError(res, 500, 'Error interno del servidor.', error.message);
-    }
-  }
-
-  async listar(req: Request, res: Response) {
-    try {
-      const usuarios = await Usuarios.find();
-      respuestaExito<Usuarios[]>(res, 200, '', usuarios);
+      const { id } = req.usuario;
+      const resultado = await Usuarios.delete(Number(id));
+      if (resultado.affected === 0) {
+        respuestaError(res, 404, 'Usuario no encontrado.');
+      } else {
+        respuestaExito(res, 200, 'Usuario eliminado exitosamente.'); 
+      }
     } catch (error) {
       respuestaError(res, 500, 'Error interno del servidor.', error.message);
     }
