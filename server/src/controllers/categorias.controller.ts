@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
-import { IsNull } from "typeorm";
-import { respuestaExito, respuestaError } from "../utils/responses";
-import { Categorias } from "../models/categorias.model";
+import { Request, Response } from 'express';
+import { IsNull } from 'typeorm';
+import { respuestaExito, respuestaError } from '../utils/responses';
+import { Categorias } from '../models/categorias.model';
 
 class CategoriasController {
 
@@ -31,7 +31,7 @@ class CategoriasController {
       if (categoria) {
         respuestaExito<Categorias>(res, 200, '', categoria);
       } else {
-        respuestaError(res, 400, 'Categoría no encontrada.');
+        respuestaError(res, 404, 'Categoría no encontrada.');
       }
     } catch (error) {
       respuestaError(res, 500, 'Error interno del servidor.', error.message);
@@ -49,7 +49,7 @@ class CategoriasController {
         req.body
       );
       if (resultado.affected === 0) {
-        respuestaError(res, 400, 'Categoría no encontrada.');
+        respuestaError(res, 404, 'Categoría no encontrada.');
       } else {
         respuestaExito(res, 200, 'Categoría actualizada exitosamente.');  
       }
@@ -66,7 +66,7 @@ class CategoriasController {
         usuario: { id: req.usuario.id }
       });
       if (resultado.affected === 0) {
-        respuestaError(res, 400, 'Categoría no encontrada.');
+        respuestaError(res, 404, 'Categoría no encontrada.');
       } else {
         respuestaExito(res, 200, 'Categoría eliminada exitosamente.');
       }

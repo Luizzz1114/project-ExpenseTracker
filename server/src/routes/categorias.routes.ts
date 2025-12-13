@@ -1,6 +1,6 @@
-import express from "express";
-import CategoriasController from "../controllers/categorias.controller";
-import { auntenticarToken } from "../middleware/auth";
+import express from 'express';
+import CategoriasController from '../controllers/categorias.controller';
+import { auntenticarToken } from '../middleware/auth';
 
 const CategoriasRoutes = express.Router();
 

@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 import { Usuarios } from '../models/usuarios.model';
-import { respuestaError } from "../utils/responses";
+import { respuestaError } from '../utils/responses';
 
 declare global {
   namespace Express {

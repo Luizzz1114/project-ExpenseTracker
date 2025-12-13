@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
-import { Request, Response } from "express";
-import { respuestaExito, respuestaError } from "../utils/responses";
-import { Usuarios } from "../models/usuarios.model";
-import { generarToken } from "../utils/auth";
+import { Request, Response } from 'express';
+import { respuestaExito, respuestaError } from '../utils/responses';
+import { generarToken } from '../utils/auth';
+import { Usuarios } from '../models/usuarios.model';
 
 class UsuariosController {
 
@@ -29,7 +29,7 @@ class UsuariosController {
       if (usuario) {
         respuestaExito<Usuarios>(res, 200, '', usuario);
       } else {
-        respuestaError(res, 404, "Usuario no encontrado");
+        respuestaError(res, 404, 'Usuario no encontrado.');
       }
     } catch (error) {
       respuestaError(res, 500, 'Error interno del servidor.', error.message);

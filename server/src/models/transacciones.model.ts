@@ -1,6 +1,6 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Usuarios } from "./usuarios.model";
-import { Categorias } from "./categorias.model";
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Usuarios } from './usuarios.model';
+import { Categorias } from './categorias.model';
 
 @Entity()
 export class Transacciones extends BaseEntity {
@@ -20,16 +20,16 @@ export class Transacciones extends BaseEntity {
   fecha: Date;
 
   @ManyToOne(() => Usuarios, (usuario) => usuario.transacciones, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: "usuario_id" })
+  @JoinColumn({ name: 'usuario_id' })
   usuario: Usuarios;
 
   @ManyToOne(() => Categorias, (categoria) => categoria.transacciones, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: "categoria_id" })
+  @JoinColumn({ name: 'categoria_id' })
   categoria: Categorias;
 
-  @CreateDateColumn({ name: "created_at"})
+  @CreateDateColumn({ name: 'created_at'})
   createdAt: Date;
 
-  @UpdateDateColumn({ name: "updated_at"})
+  @UpdateDateColumn({ name: 'updated_at'})
   updatedAt: Date;
 }
