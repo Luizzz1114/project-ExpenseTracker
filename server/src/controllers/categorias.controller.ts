@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
+import { IsNull } from "typeorm";
 import { respuestaExito, respuestaError } from "../utils/responses";
 import { Categorias } from "../models/categorias.model";
-import { IsNull } from "typeorm";
 
 class CategoriasController {
 
@@ -20,7 +20,10 @@ class CategoriasController {
     try {
       const { id } = req.params;
       const categoria = await Categorias.findOne({
-        where: { id: Number(id) },
+        where: { 
+          id: Number(id),
+          usuario: { id: req.usuario.id }
+        },
         relations: {
           usuario: true,
         }
@@ -38,8 +41,18 @@ class CategoriasController {
   async modificar(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      await Categorias.update(Number(id), req.body);
-      respuestaExito(res, 200, 'Categoría actualizada exitosamente.');
+      const resultado = await Categorias.update(
+        { 
+          id: Number(id), 
+          usuario: { id: req.usuario.id }
+        },
+        req.body
+      );
+      if (resultado.affected === 0) {
+        respuestaError(res, 400, 'Categoría no encontrada.');
+      } else {
+        respuestaExito(res, 200, 'Categoría actualizada exitosamente.');  
+      }
     } catch (error) {
       respuestaError(res, 500, 'Error interno del servidor.', error.message);
     } 
@@ -48,8 +61,15 @@ class CategoriasController {
   async eliminar(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      await Categorias.delete(Number(id));
-      respuestaExito(res, 200, 'Categoría eliminada exitosamente.');
+      const resultado = await Categorias.delete({ 
+        id: Number(id), 
+        usuario: { id: req.usuario.id }
+      });
+      if (resultado.affected === 0) {
+        respuestaError(res, 400, 'Categoría no encontrada.');
+      } else {
+        respuestaExito(res, 200, 'Categoría eliminada exitosamente.');
+      }
     } catch (error) {
       respuestaError(res, 500, 'Error interno del servidor.', error.message);
     } 
